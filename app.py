@@ -11,7 +11,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 def register_user():
     email = request.json['email']
     password = request.json['password']
