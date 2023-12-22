@@ -7,11 +7,10 @@ import redis
 import os
 
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'dsssmdmskmuoerermaertsdfghjkjxcvbn'
 app.config.from_object(ApplicationConfig)
 app.config['SESSION_TYPE'] = 'redis'
-app.config['SECRET_KEY '] = 'dsssmdmskmuoerermaertsdfghjkjxcvbn'
 app.config['SESSION_REDIS'] = redis.from_url('redis://127.0.0.1:6379')
+app.config['SESSION_PERMANENT'] = False
 bcrypt = Bcrypt(app)
 server_session = Session(app)
 db.init_app(app)
