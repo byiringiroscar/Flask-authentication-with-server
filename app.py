@@ -11,6 +11,7 @@ app.config.from_object(ApplicationConfig)
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_REDIS'] = redis.from_url('redis://127.0.0.1:6379')
 app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_COOKIE_SECURE'] = True
 bcrypt = Bcrypt(app)
 server_session = Session(app)
 db.init_app(app)
