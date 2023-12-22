@@ -3,11 +3,17 @@ from models import db, User
 from config import ApplicationConfig
 from flask_bcrypt import Bcrypt
 from flask_session import Session
+import redis
+import os
 
 app = Flask(__name__)
+# app.config['SECRET_KEY'] = 'dsssmdmskmuoerermaertsdfghjkjxcvbn'
 app.config.from_object(ApplicationConfig)
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_REDIS'] = redis.from_url('redis://127.0.0.1:6379')
 bcrypt = Bcrypt(app)
-server_session = Session(app)
+Session(app) 
+# server_session = Session(app)
 db.init_app(app)
 
 with app.app_context():
@@ -27,9 +33,7 @@ def login_user():
     if not bcrypt.check_password_hash(user.password, password):
         return jsonify({'error': 'Unauthorized'}), 401
     
-    print('---------------', str(user.id))
-    
-    session["user_id"] = str(user.id)
+    session["id"] = str(user.id)
     
     return jsonify({
         'id': user.id,
@@ -61,4 +65,5 @@ def register_user():
 
 
 if __name__ == '__main__':
+    app.secret_key = 'dsssmdmskmuoerermaertsdfghjkjxcvbn'
     app.run(debug=True)
